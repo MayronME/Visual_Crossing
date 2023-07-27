@@ -1,0 +1,14 @@
+---
+- name: Transfer folder to EC2 instance
+  hosts: aws_cross
+  become: true
+  gather_facts: false
+  vars:
+    local_folder_path: /home/mayron/Documents/work/project1/Code/
+    remote_folder_path: /home/ubuntu/Code/
+
+  tasks:
+    - name: Copy folder to EC2
+      copy:
+        src: "{{local_folder_path}}"
+        dest: "{{remote_folder_path}}"
