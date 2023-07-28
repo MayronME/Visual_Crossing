@@ -1,29 +1,11 @@
 from os.path import join
+import os
 import pandas as pd
 from datetime import datetime
 import mysql.connector
 import schedule
 import time
 import configparser
-
-def ler_config(**kwargs):
-    config = configparser.ConfigParser()
-    config.read('config.ini')
-
-    # Verifica se a seção 'database' existe no arquivo de configuração
-    if 'database' in config:
-
-        # Lê os valores de configuração do arquivo
-        username = config['database']['username']
-        password = config['database']['password']
-        host = config['database']['host']
-        port = int(config['database']['port'])
-        database_name = config['database']['database_name']
-
-        # Retorna os valores lidos
-        return username, password, host, port, database_name
-    
-    else: raise ValueError("A seção 'database' não foi encontrada no arquivo de configuração")
 
 def criar_banco(host,user,password):
     try:
@@ -183,11 +165,10 @@ def inserir_banco(host,user,password,dados):
             print('*'*50)
 
 if __name__ == "__main__":
-    username, password, host, port, database_name = ler_config()
-    host_mysql = 'localhost'              # Declaração do Host Mysql
-    user_mysql = 'xadia'                  # Declaração do usuário Mysql
-    password_mysql = 'A1234567'           # Senha do Mysql ################## ACHAR FORMA MELHOR DE DECLARAR
-    key_API = 'QCPAAUEN497XWXP6LVQJZVWXW' # Chave API  ################## ACHAR FORMA MELHOR DE DECLARAR
+    host_mysql = 'localhost'         # Declaração do Host Mysql
+    user_mysql = 'xadia'
+    password_mysql = "variavel_ansible_user_pass"
+    key_API = "variavel_ansible_api"
     lista_cidades = ['RioBranco,AC','Maceio,AL','Macapa,AP','Manaus,AM','Salvador,BA','Fortaleza,CE','Vitoria,ES','Goiania,GO',
              'SaoLuis,MA','Cuiaba,MT','CampoGrande,MS','BeloHorizonte,MG','Belem,PA','JoaoPessoa,PB','Curitiba,PR','Recife,PE','Teresina,PI',
              'RiodeJaneiro,RJ','Natal,RN','PortoAlegre,RS','PortoVelho,RO','BoaVista,RR','Florianopolis,SC','SaoPaulo,SP','Aracaju,SE','Palmas,TO'] # Lista de cidades para a busca
@@ -201,4 +182,3 @@ if __name__ == "__main__":
     while True:
         schedule.run_pending()
         time.sleep(1)
-
