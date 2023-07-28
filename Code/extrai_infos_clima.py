@@ -1,21 +1,11 @@
 from os.path import join
+import os
 import pandas as pd
 from datetime import datetime
 import mysql.connector
 import schedule
 import time
 import configparser
-
-def ler_config(**kwargs):
-    config = configparser.ConfigParser()
-    config.read(r"Code/config.ini")
-    chave = list(kwargs.keys())[0]  # captura a chave do kwargs
-    valor = list(kwargs.values())[0] # captura o valor do kwargs
-
-    # Verifica se a seção existe no arquivo de configuração
-    if chave in config:
-        return config[chave][valor]# Retorna os valores lidos
-    else: raise ValueError(f"A seção {chave} não foi encontrada no arquivo de configuração")
 
 def criar_banco(host,user,password):
     try:
@@ -175,10 +165,10 @@ def inserir_banco(host,user,password,dados):
             print('*'*50)
 
 if __name__ == "__main__":
-    host_mysql = ler_config(database='host_mysql')            # Declaração do Host Mysql
-    user_mysql = ler_config(database='user_mysql') 
-    password_mysql = ler_config(database='password_mysql') 
-    key_API = ler_config(api='key_API') 
+    host_mysql = 'localhost'         # Declaração do Host Mysql
+    user_mysql = 'xadia'
+    password_mysql = "variavel_ansible_user_pass"
+    key_API = "variavel_ansible_api"
     lista_cidades = ['RioBranco,AC','Maceio,AL','Macapa,AP','Manaus,AM','Salvador,BA','Fortaleza,CE','Vitoria,ES','Goiania,GO',
              'SaoLuis,MA','Cuiaba,MT','CampoGrande,MS','BeloHorizonte,MG','Belem,PA','JoaoPessoa,PB','Curitiba,PR','Recife,PE','Teresina,PI',
              'RiodeJaneiro,RJ','Natal,RN','PortoAlegre,RS','PortoVelho,RO','BoaVista,RR','Florianopolis,SC','SaoPaulo,SP','Aracaju,SE','Palmas,TO'] # Lista de cidades para a busca
@@ -192,4 +182,3 @@ if __name__ == "__main__":
     while True:
         schedule.run_pending()
         time.sleep(1)
-

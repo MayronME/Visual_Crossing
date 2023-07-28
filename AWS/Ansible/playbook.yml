@@ -1,0 +1,106 @@
+---
+- name: Configuração do Mysql e dependências no EC2 AWS
+  hosts: aws_cross
+  become: true
+  gather_facts: true
+  vars:
+    mysql_user: xadia
+    local_path: ../../Code/extrai_infos_clima.py
+  vars_files:
+    - vault.yml
+  tasks:
+    - name:  Atualizar Sistema
+      apt:
+        update_cache: yes
+    
+    - name: Atualizar Pacotes
+      apt: 
+        upgrade: safe
+        autoremove: yes
+        
+    - name: Configurar o Timezone
+      command: timedatectl set-timezone America/Sao_Paulo
+
+    - name: Instalar pip3
+      apt:
+        name: python3-pip
+        state: present
+
+    - name: Instalar PIP Pandas
+      pip:
+        name: pandas
+        version: 2.0.3
+        executable: pip3
+
+    - name: Instalar PIP Mysql Connector
+      pip:
+        name: mysql-connector-python
+        version: 8.1.0
+        executable: pip3
+
+    - name: Instalar PIP Schedule
+      pip:
+        name: schedule
+        version: 1.2.0
+        executable: pip3
+
+    - name: Instalar PyMySQL
+      apt:
+        name: python3-pymysql
+        state: present
+
+    - name: Instalar MySQL server
+      apt:
+        name: mysql-server
+        state: present
+
+    - name: Reiniciar MySQL service
+      service:
+        name: mysql
+        state: restarted
+
+    - name: Configurar Senha do Root
+      mysql_user:
+        name: root
+        password: "{{ mysql_root_password }}"
+        host: localhost
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+        login_user: root
+        login_password: ""
+        login_host: localhost
+        login_port: 3306
+        state: present
+
+    - name: Criar usuario Mysql 
+      mysql_user:
+        name: "{{ mysql_user }}"
+        password: "{{ mysql_user_password }}"
+        priv: "*.*:ALL"
+        host: localhost
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+        login_host: localhost
+        login_port: 3306
+        state: present
+
+    - name: Enviar codigo Extração
+      copy:
+        src: "{{local_path}}"
+        dest: /tmp/extrai_infos_clima.py
+        mode: 0755
+    
+    - name: Substituir chave API
+      replace:
+        path: /tmp/extrai_infos_clima.py
+        regexp: 'variavel_ansible_api'
+        replace: "{{ api_key }}"
+
+    - name: Substituir a senha usuario
+      replace:
+        path: /tmp/extrai_infos_clima.py
+        regexp: 'variavel_ansible_user_pass'
+        replace: "{{ mysql_user_password }}"
+    
+    - name: Executar código Python
+        command: python3 /tmp/extrai_infos_clima.py
