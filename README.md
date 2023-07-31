@@ -3,7 +3,6 @@
 ## Objetivo
 O projeto tem como objetivo realizar a extração de dados climáticos do site [Visual Crossing](https://www.visualcrossing.com/) e disponibilizá-los no POWER BI, com o propósito de aprendizado. Para a implementação, optei por utilizar a nuvem da AWS, mais especificamente o serviço EC2, e também empreguei as ferramentas Terraform e Ansible para facilitar o gerenciamento e a automação do ambiente.
 ## Execução
-#### Configuração do Terraform
 ### Criando um ssh
 - crie uma pasta **key**:  ```mkdir AWS/key/```
 - crie a chave ssh: ```ssh-keygen -t rsa /AWS/key/xadia_acess```
@@ -12,7 +11,7 @@ O projeto tem como objetivo realizar a extração de dados climáticos do site [
 
 ### Configurando o Terraform
 
-- [Instalação Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) versão utilizar: 1.5.4
+- [Instalação Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) versão utilizada: 1.5.4
 
 - Entre na pasta ```cd AWS/Terraform```
 - Crie o arquivo ```touch terraform.tfvars```
@@ -22,3 +21,7 @@ O projeto tem como objetivo realizar a extração de dados climáticos do site [
 > **Nota:** **certifique-se** de estar na pasta Terraform **antes de executar** o terraform init
 
 Agora os serviços na AWS estão funcionando
+
+### Configurando Ansible
+- [Instalação Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) versão utilizada: core 2.15.2
+- Na pasta **Ansible** acesse o arquivo **config.ini** e coloque o IP da maquina que é disponibilizado após execução do Terraform
