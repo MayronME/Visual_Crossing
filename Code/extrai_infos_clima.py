@@ -1,11 +1,7 @@
 from os.path import join
-import os
 import pandas as pd
 from datetime import datetime
 import mysql.connector
-import schedule
-import time
-import configparser
 
 def criar_banco(host,user,password):
     try:
@@ -29,7 +25,7 @@ def criar_banco(host,user,password):
             ID SMALLINT AUTO_INCREMENT PRIMARY KEY,
             capital varchar(100),
             UF char(2),
-            datetime DATE DEFAULT CURRENT_TIMESTAMP,
+            datetime DATE,
             tempmax DECIMAL(6,2),
             tempmin DECIMAL(6,2),
             feelslikemax DECIMAL(6,2),
@@ -173,12 +169,5 @@ if __name__ == "__main__":
              'SaoLuis,MA','Cuiaba,MT','CampoGrande,MS','BeloHorizonte,MG','Belem,PA','JoaoPessoa,PB','Curitiba,PR','Recife,PE','Teresina,PI',
              'RiodeJaneiro,RJ','Natal,RN','PortoAlegre,RS','PortoVelho,RO','BoaVista,RR','Florianopolis,SC','SaoPaulo,SP','Aracaju,SE','Palmas,TO'] # Lista de cidades para a busca
     criar_banco(host_mysql,user_mysql,password_mysql)
-
-    def schedule_job(): # Função responsável por ativar todos os pasos do código aguardando a permissão do schedule 
-        extracao_dia = conectar_api(key_API,lista_cidades)
-        inserir_banco(host_mysql,user_mysql,password_mysql,extracao_dia)
-
-    schedule.every().day.at("12:05").do(schedule_job)
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
+    extracao_dia = conectar_api(key_API,lista_cidades)
+    inserir_banco(host_mysql,user_mysql,password_mysql,extracao_dia)

@@ -101,6 +101,6 @@
         path: /tmp/extrai_infos_clima.py
         regexp: 'variavel_ansible_user_pass'
         replace: "{{ mysql_user_password }}"
-    
-    - name: Executar código Python
-        command: python3 /tmp/extrai_infos_clima.py
+        mode: "+x"
+        
+#05 11 * * * /usr/bin/python3 /tmp/extrai_infos_clima.py >> /tmp/clima_out.txt
