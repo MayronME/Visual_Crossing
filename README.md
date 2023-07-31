@@ -8,8 +8,7 @@ O projeto tem como objetivo realizar a extração de dados climáticos do site [
 - crie uma pasta **key**:  ```mkdir AWS/key/```
 - crie a chave ssh: ```ssh-keygen -t rsa /AWS/key/xadia_acess```
 ### Configurando acesso a AWS CLI
-- verfique a instalação do python e pip
-	- ```python3 --version```
+- [Passo a Passo da configuração](https://www.treinaweb.com.br/blog/como-instalar-e-configurar-o-aws-cli)
 
 ### Configurando o Terraform
 
@@ -21,3 +20,5 @@ O projeto tem como objetivo realizar a extração de dados climáticos do site [
 - <img src="https://user-images.githubusercontent.com/84480805/257296571-42ef1bd0-2a3a-4220-9f43-e233ded9f3da.png"/> 
 -  Execute o comando ```terraform init``` 
 > **Nota:** **certifique-se** de estar na pasta Terraform **antes de executar** o terraform init
+
+Agora os serviços na AWS estão funcionando
