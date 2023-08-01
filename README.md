@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-=======
-
 # Objetivo
 
 O objetivo deste projeto é realizar a extração de dados climáticos do site [Visual Crossing](https://www.visualcrossing.com/) e disponibilizá-los no POWER BI, com o propósito de aprendizado. Para a implementação, foi escolhido utilizar a nuvem da AWS, mais especificamente o serviço EC2, e também empreguei as ferramentas Terraform e Ansible para facilitar o gerenciamento e a automação do ambiente.
@@ -112,4 +109,3 @@ Para configurar o acesso à AWS CLI, siga este [Passo a Passo da configuração 
 ## Configurando código para execução diária
 
 Acesse a máquina e configure o **[crontab](https://acervolima.com/agendamento-de-scripts-python-no-linux/)**
->>>>>>> readme
